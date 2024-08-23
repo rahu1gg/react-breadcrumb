@@ -1,4 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { Breadcrumbs } from '@/components/global/breadcrumb';
+import { Button } from '@/components/ui/button';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -7,7 +9,13 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <div className='p-2'>
+      <Breadcrumbs />
       <h3>Welcome Home!</h3>
+      <div>
+        <Button asChild>
+          <Link to='/products'>Products</Link>
+        </Button>
+      </div>
     </div>
   );
 }

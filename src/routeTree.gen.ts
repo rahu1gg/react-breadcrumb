@@ -11,18 +11,24 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as ProductsIndexImport } from './routes/products/index'
+import { Route as ProductsProductIdImport } from './routes/products/$productId'
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  path: '/about',
+const IndexRoute = IndexImport.update({
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  path: '/',
+const ProductsIndexRoute = ProductsIndexImport.update({
+  path: '/products/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProductsProductIdRoute = ProductsProductIdImport.update({
+  path: '/products/$productId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,11 +43,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
+    '/products/$productId': {
+      id: '/products/$productId'
+      path: '/products/$productId'
+      fullPath: '/products/$productId'
+      preLoaderRoute: typeof ProductsProductIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -49,7 +62,11 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ IndexRoute, AboutRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexRoute,
+  ProductsProductIdRoute,
+  ProductsIndexRoute,
+})
 
 /* prettier-ignore-end */
 
@@ -60,14 +77,18 @@ export const routeTree = rootRoute.addChildren({ IndexRoute, AboutRoute })
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/products/$productId",
+        "/products/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/products/$productId": {
+      "filePath": "products/$productId.tsx"
+    },
+    "/products/": {
+      "filePath": "products/index.tsx"
     }
   }
 }
